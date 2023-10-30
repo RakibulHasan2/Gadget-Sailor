@@ -1,9 +1,13 @@
+import MainLayout from "./layout/Layout"
+
 function App() {
   
   return (
-    <>
-     <h1>hello</h1>
-    </>
+    <div>
+      <div>
+        <MainLayout></MainLayout>
+      </div>
+    </div>
   )
 }
 
