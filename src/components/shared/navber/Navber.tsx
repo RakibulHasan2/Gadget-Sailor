@@ -8,6 +8,7 @@ import { useState } from "react";
 
 export default function Navbar() {
   const [isFocused, setIsFocused] = useState(false);
+  const [inputValue, setInputValue] = useState("");
   return (
     <div className="">
       <div className="flex items-center justify-between p-4 shadow-lg bg-slate-200">
@@ -16,18 +17,21 @@ export default function Navbar() {
             <img className="w-40 rounded-2xl" src={logo} alt="" />
           </div>
           <div className="flex items-center">
-
             <div className="relative">
               <input
                 type="text"
-                className={`h-10 border rounded-md bg-slate-50 ${isFocused ? "w-96" : "w-32"
+                className={`h-10 border rounded-md bg-slate-50 ${isFocused || inputValue ? "w-96" : "w-32"
                   } transition-width duration-500 ease-in-out`}
                 placeholder="Search item"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
               />
             </div>
-            <button><FcSearch className='text-3xl font-bold'></FcSearch></button>
+            <button>
+              <FcSearch className="text-3xl font-bold"></FcSearch>
+            </button>
           </div>
         </div>
 
