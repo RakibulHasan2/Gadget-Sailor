@@ -1,12 +1,11 @@
-import MainLayout from "./layout/Layout"
+import { RouterProvider } from "react-router-dom"
+import routes from "./routes/Routes"
 
 function App() {
-  
+
   return (
     <div>
-      <div>
-        <MainLayout></MainLayout>
-      </div>
+      <RouterProvider router={routes} />
     </div>
   )
 }
