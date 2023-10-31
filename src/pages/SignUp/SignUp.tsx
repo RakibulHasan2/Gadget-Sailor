@@ -1,11 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, FieldValues } from 'react-hook-form';
 import { IUser } from './../../types/UserType';
-
+import toast from 'react-hot-toast';
 
 export default function SignUp() {
     const { register, handleSubmit } = useForm(); //formState: { errors }
     const navigate = useNavigate();
+
 
     const handleSignUp = async (data: FieldValues) => {
         const userData: IUser = {
@@ -17,25 +18,23 @@ export default function SignUp() {
             phoneNumber: data.phoneNumber,
             password: data.password
         }
-        try {
-            const response = await fetch('http://localhost:5000/api/v1/auth/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userData)
-            });
-            const user = await response.json();
-            console.log(response)
-         
-            if (user) {
-                navigate('/home')
-            }
+        // console.log(userData)
+        const response = await fetch('http://localhost:5000/api/v1/auth/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        });
+        const user = await response.json();
+
+        if (user.statusCode === 200) {
+            toast.success(user.message)
+            navigate('/home')
+        }else{
+            toast.error(user.message)
         }
-        catch(err){
-            console.log(err)
-        }
-        // console.log(user);
+        console.log(user);
     }
 
     return (
