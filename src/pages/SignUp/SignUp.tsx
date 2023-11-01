@@ -1,10 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, FieldValues } from 'react-hook-form';
 import { IUser } from './../../types/UserType';
+import toast from 'react-hot-toast';
+import { FormValues } from "../../types/FormType";
 
 
 export default function SignUp() {
-    const { register, handleSubmit } = useForm(); //formState: { errors }
+    const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
     const navigate = useNavigate();
 
     const handleSignUp = async (data: FieldValues) => {
@@ -17,7 +19,6 @@ export default function SignUp() {
             phoneNumber: data.phoneNumber,
             password: data.password
         }
-        try {
             const response = await fetch('http://localhost:5000/api/v1/auth/signup', {
                 method: 'POST',
                 headers: {
@@ -26,16 +27,15 @@ export default function SignUp() {
                 body: JSON.stringify(userData)
             });
             const user = await response.json();
-            console.log(response)
-         
-            if (user) {
+
+            if (user.statusCode === 200) {
+                toast.success(user.message)
                 navigate('/home')
+            } else {
+                toast.error(user.message)
             }
-        }
-        catch(err){
-            console.log(err)
-        }
-        // console.log(user);
+            console.log(user);
+        
     }
 
     return (
@@ -52,27 +52,29 @@ export default function SignUp() {
                             <input type="text" {...register("firstName", {
                                 required: "First Name is Required"
                             })} className="input input-bordered w-full max-w-xs" />
+                            {errors.firstName && <p className='text-red-500'>{errors.firstName?.message}</p>}
                         </div>
                         <div className="form-control w-full max-w-xs">
                             <label className="label"> <span className="label-text">Last Name</span></label>
                             <input type="text" {...register("lastName", {
                                 required: "Last Name is Required"
                             })} className="input input-bordered w-full max-w-xs" />
+                            {errors.lastName && <p className='text-red-500'>{errors.lastName?.message}</p>}
                         </div>
                     </div>
                     <div className="form-control w-full max-w-xs">
                         <label className="label"> <span className="label-text">Email</span></label>
                         <input type="email" {...register("email", {
-                            required: true
+                            required: "Email is Required"
                         })} className="input input-bordered w-full max-w-xs" />
-                        {/* {errors.email && <p className='text-red-500'>{errors.email.message}</p>} */}
+                        {errors.email && <p className='text-red-500'>{errors.email.message}</p>}
                     </div>
                     <div className="form-control w-full max-w-xs">
                         <label className="label"> <span className="label-text">Phone Number</span></label>
                         <input type="text" {...register("phoneNumber", {
                             required: "Phone Number is required",
                         })} className="input input-bordered w-full max-w-xs" />
-                        {/* {errors.password && <p className='text-red-500'>{errors.password.message}</p>} */}
+                        {errors.phoneNumber && <p className='text-red-500'>{errors.phoneNumber.message}</p>}
                     </div>
                     <div className="form-control w-full max-w-xs">
                         <label className="label"> <span className="label-text">Password</span></label>
@@ -81,7 +83,7 @@ export default function SignUp() {
                             minLength: { value: 6, message: "Password must be 6 characters long" },
                             pattern: { value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/, message: 'Password must have uppercase, number and special characters' }
                         })} className="input input-bordered w-full max-w-xs" />
-                        {/* {errors.password && <p className='text-red-500'>{errors.password.message}</p>} */}
+                        {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
                     </div>
                     <input className='btn p-2 mb-4 bg-blue-600 text-white w-full mt-4' value="Sign Up" type="submit" />
                     {/* {signUpError && <p className='text-red-600'>{signUpError}</p>} */}
