@@ -1,9 +1,9 @@
+
 import NavbarItem from "./NavberItem";
 import logo from '../../../assets/images/368572024_642047007826578_1321780034725554955_n-removebg-preview.png'
 import { FcSearch } from 'react-icons/fc';
 import { FaUserAlt } from 'react-icons/fa';
 import { GiBoxUnpacking } from 'react-icons/gi';
-
 import { useState } from "react";
 import '../../../styles/Navber.css'
 
