@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
+import '../../../styles/Navber.css'
 export default function NavbarItem() {
 
+
+  
+  
 
     return (
         <div className="flex pb-2 mt-2 mb-5 shadow-md">
